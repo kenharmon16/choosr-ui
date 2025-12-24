@@ -1,50 +1,260 @@
-# Welcome to your Expo app 👋
+# Choosr – Design Document
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## 1. Overview
 
-## Get started
+**Choosr** is a mobile-first group decision-making app that helps people quickly and fairly decide as a group — without endless group chats or dominant voices.
 
-1. Install dependencies
+Users create a decision, share a link, vote asynchronously, and get a clear winner with an explanation.
 
-   ```bash
-   npm install
-   ```
+**Primary use cases:**
 
-2. Start the app
+- Where to eat
+- What to watch
+- When to meet
+- What activity to do
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## 2. Goals & Non-Goals
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Goals
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- Make group decisions fast and frictionless
+- Work without user accounts initially
+- Be mobile-first (React Native + Expo)
+- Support async participation
+- Provide transparent decision outcomes
 
-## Get a fresh project
+### Non-Goals (MVP)
 
-When you're ready, run:
+- User profiles / social graph
+- Payments or monetization
+- AI recommendations
+- Push notifications
+- Complex permission systems
 
-```bash
-npm run reset-project
+---
+
+## 3. Target Users
+
+### Primary
+
+- Friend groups (18–40)
+- Casual planners
+- Social coordinators
+
+### Secondary (Future)
+
+- Small teams
+- Event organizers
+- Managers
+
+---
+
+## 4. Core User Flows
+
+### Create a Decision
+
+1. Open app
+2. Tap "Create Decision"
+3. Enter title
+4. Add options
+5. Set close time (optional)
+6. Create
+
+### Vote
+
+1. Open shared link
+2. View decision
+3. Select option
+4. Submit vote
+
+### View Results
+
+1. Decision closes automatically or manually
+2. Winner selected
+3. Explanation shown
+
+---
+
+## 5. Functional Requirements
+
+### Decision
+
+- Create decision
+- Add/remove options
+- Set optional close time
+- Decision states: OPEN, CLOSED
+
+### Voting
+
+- One vote per device
+- Anonymous voting
+- Optional vote visibility
+
+### Results
+
+- Determine winner based on rules
+- Handle ties
+- Provide human-readable explanation
+
+---
+
+## 6. Decision Logic (MVP)
+
+1. Count votes per option
+2. Option with highest votes wins
+3. Tie-breaker: earliest vote wins
+4. If no votes, mark as "No Decision"
+
+---
+
+## 7. Technical Architecture
+
+### Frontend (Mobile)
+
+- React Native
+- Expo
+- TypeScript
+- Expo Router or React Navigation
+
+### Backend
+
+- Spring Boot 3
+- Java 17+
+- MongoDB
+- REST API
+
+---
+
+## 8. API Design (Initial)
+
+### Create Decision
+
+```
+POST /decisions
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Request:
 
-## Learn more
+```
+{
+  "title": "Where should we eat?",
+  "options": ["Pizza", "Sushi", "Tacos"],
+  "closesAt": "2025-01-01T19:00:00Z"
+}
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+### Get Decision
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```
+GET /decisions/{id}
+```
 
-## Join the community
+### Vote
 
-Join our community of developers creating universal apps.
+```
+POST /decisions/{id}/vote
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Request:
+
+```
+{
+  "optionId": "abc123"
+}
+```
+
+---
+
+## 9. Data Model
+
+### Decision
+
+```
+Decision {
+  id: String
+  title: String
+  options: List<Option>
+  status: OPEN | CLOSED
+  closesAt: Instant
+  createdAt: Instant
+}
+```
+
+### Option
+
+```
+Option {
+  id: String
+  label: String
+  votes: Int
+}
+```
+
+---
+
+## 10. Mobile UX Principles
+
+- No login required
+- Minimal taps
+- Clear call-to-action
+- Friendly tone
+- Fast feedback (haptics, animations)
+
+---
+
+## 11. Security & Abuse Prevention
+
+- Device-based vote limiting
+- Rate limiting on vote endpoint
+- Input validation
+- CORS configuration
+
+---
+
+## 12. Future Enhancements
+
+### Phase 2
+
+- Deep linking
+- Push notifications
+- Editable decisions
+- Vote visibility toggles
+
+### Phase 3
+
+- AI option suggestions
+- Group preference learning
+- Accounts & history
+
+---
+
+## 13. Success Metrics
+
+- Time to decision
+- Votes per decision
+- Repeat usage
+- Share rate
+
+---
+
+## 14. Risks & Mitigations
+
+| Risk          | Mitigation               |
+| ------------- | ------------------------ |
+| Low adoption  | Zero-friction onboarding |
+| Vote spam     | Device-based voting      |
+| Feature creep | Strict MVP scope         |
+
+---
+
+## 15. Summary
+
+Choosr is designed to be:
+
+- Simple
+- Fast
+- Fair
+
+The MVP prioritizes shipping a usable product quickly, with a clear path to future expansion without overengineering.
