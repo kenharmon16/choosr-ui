@@ -1,4 +1,5 @@
 export const RouteNames = {
     DECISION_SELECTION: 'decisionSelection',
-    HOME: '/'
+    HOME: '/',
+    VOTE: '/vote'
 }
