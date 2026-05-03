@@ -1,5 +1,5 @@
 export const RouteNames = {
-    DECISION_SELECTION: 'decisionSelection',
-    HOME: '/',
-    VOTE: '/vote'
-}
+  HOME: 'index',
+  CREATE: 'create',
+  DECISION: 'decision/[id]',
+} as const;

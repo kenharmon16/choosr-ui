@@ -1,0 +1,25 @@
+# Secrets and local env
+.env
+.env.*
+*.local
+
+# App config and credentials
+app.config.local.*
+credentials.json
+google-services.json
+GoogleService-Info.plist
+
+# Keys and certificates
+*.pem
+*.key
+*.p12
+*.jks
+
+# Build/cache artifacts
+node_modules/
+.expo/
+dist/
+web-build/
+coverage/
+.idea/
+.vscode/
