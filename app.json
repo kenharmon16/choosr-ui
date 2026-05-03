@@ -2,14 +2,14 @@
   "expo": {
     "name": "choosr",
     "slug": "choosr",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/choosr_icon_1.png",
     "scheme": "choosr",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.kenharmon16.choosr",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
