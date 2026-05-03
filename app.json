@@ -4,7 +4,7 @@
     "slug": "choosr",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/choosr_icon_1.png",
     "scheme": "choosr",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
